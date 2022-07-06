@@ -6,7 +6,7 @@
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="username" />
+        <el-input v-model="loginForm.username" name="username" type="text" auto-complete="on" placeholder="用户名" />
       </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
@@ -17,17 +17,27 @@
           v-model="loginForm.password"
           name="password"
           auto-complete="on"
-          placeholder="password"
+          placeholder="密码"
           @keyup.enter.native="handleLogin" />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
       <el-form-item>
+        <el-button type="primary" style="width:100%" @click="userClick">用户注册</el-button>
+      </el-form-item>
+       <el-form-item>
+        <!-- <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLoginUser">
+          用户登录
+        </el-button> -->
         <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          Sign in
+          用户登录
         </el-button>
       </el-form-item>
+      <el-form-item>
+        <el-button type="primary" style="width:100%" @click="userClick">管理员登录</el-button>
+      </el-form-item>
+
       <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: admin</span>
@@ -101,6 +111,25 @@ export default {
           return false
         }
       })
+    },
+     handleLoginUser() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          this.loading = true
+          this.$store.dispatch('Login', this.loginForm).then(() => {
+            this.loading = false
+            this.$router.push({ path: this.redirect || '/' })
+          }).catch(() => {
+            this.loading = false
+          })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+     userClick () {
+      window.location.href = 'http://localhost:9528'
     }
   }
 }
@@ -112,10 +141,14 @@ $light_gray:#eee;
 
 /* reset element-ui css */
 .login-container {
+  background-image: url("../../assets/login1.png");
+   background-size: cover;
+  background-position: center;
   .el-input {
     display: inline-block;
     height: 47px;
     width: 85%;
+
     input {
       background: transparent;
       border: 0px;
