@@ -24,18 +24,17 @@
         </span>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" style="width:100%" @click="userClick">用户注册</el-button>
+        <el-button type="primary" style="width:45%" @click.native.prevent="registerClick">注册</el-button>
+        <el-button :loading="loading" type="primary" style="width:45%;" @click.native.prevent="handleLogin">
+          登录
+        </el-button>
       </el-form-item>
-       <el-form-item>
         <!-- <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLoginUser">
           用户登录
         </el-button> -->
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
-          用户登录
-        </el-button>
-      </el-form-item>
+
       <el-form-item>
-        <el-button type="primary" style="width:100%" @click="userClick">管理员登录</el-button>
+        <el-button type="primary" style="width:100%" @click="userClick">管理员入口</el-button>
       </el-form-item>
 
       <div class="tips">
@@ -130,6 +129,9 @@ export default {
     },
      userClick () {
       window.location.href = 'http://localhost:9528'
+    },
+    registerClick(){
+      this.$router.push('../login/register.vue')
     }
   }
 }
