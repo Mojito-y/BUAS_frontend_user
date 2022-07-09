@@ -30,6 +30,7 @@
     <el-form-item>
         <div class="block">
           <el-date-picker
+            :picker-options="pickerOptions"
             v-model="valuetime"
             data="timeData"
             type="year"
@@ -47,8 +48,8 @@
           </el-option>
         </el-select>
     </el-form-item>
-    <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button><!-- @click绑定调用方法 -->
-    <el-button type="primary" icon="el-icon-plus" @click="getList()">添加</el-button><!-- @click绑定调用方法 -->
+    <el-button type="primary" icon="el-icon-search" @click="getList()" class="button">查询</el-button><!-- @click绑定调用方法 -->
+    <el-button type="primary" icon="el-icon-plus" @click="getList()" class="button">添加</el-button><!-- @click绑定调用方法 -->
   </el-form>
 
 
@@ -70,8 +71,8 @@
     <el-table-column fixed="right" label="操作" width="170">
       <template slot-scope="scope">
         <el-button-group>
-          <el-button @click="handleClick(scope.row)" type="primary" icon="el-icon-edit" size="small"></el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small"></el-button>
+          <el-button @click="handleClick(scope.row)" type="primary" icon="el-icon-edit" size="small" class="button"></el-button>
+          <el-button type="primary" icon="el-icon-delete" size="small" class="button"></el-button>
         </el-button-group>
       </template>
     </el-table-column>
@@ -99,6 +100,11 @@
     },
     data() {
       return {
+        pickerOptions: {
+          disabledDate(time){
+            return time.getTime() > Date.now()||time.getTime() < Date.now() - 24 * 3600 * 1000 * 6 * 365;//设置可选时间为2016-2022年
+          }
+        },
         methodsoptions: [{valuemethod: '选项1',label: '银行卡支付'},
                          {valuemethod: '选项2',label: '网上银行'},
                          {valuemethod: '选项3',label: '电子支票'},
@@ -215,5 +221,8 @@
 .tableDiv{
   width: 90%;
   margin: auto;
+}
+.button{
+  background-color:#304156;
 }
 </style>
