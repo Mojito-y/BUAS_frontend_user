@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function login(username, password) {
   return request({
-    url: '/user/login',   /* 登录接口地址 */
+    url: 'userinfo/login',   /* 登录接口地址 */
     method: 'post',
     data: {
       username,

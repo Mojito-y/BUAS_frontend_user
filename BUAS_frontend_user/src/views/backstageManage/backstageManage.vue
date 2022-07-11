@@ -224,5 +224,6 @@
 }
 .button{
   background-color:#304156;
+  border:0
 }
 </style>
