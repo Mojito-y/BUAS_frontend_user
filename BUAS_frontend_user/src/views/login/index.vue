@@ -23,9 +23,11 @@
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
-      <el-form-item>
-        <el-button type="primary" style="width:45%" @click.native.prevent="registerClick">注册</el-button>
-        <el-button :loading="loading" type="primary" style="width:45%;" @click.native.prevent="handleLogin">
+      <el-form-item style="border:0">
+        <router-link class="inlineBlock" to="/">
+          <el-button type="primary" style="width:48%" @click.native.prevent="registerClick">注册</el-button>
+        </router-link>
+        <el-button :loading="loading"  type="primary" style="width:48%;float:right" @click.native.prevent="handleLogin">
           登录
         </el-button>
       </el-form-item>
@@ -37,10 +39,6 @@
         <el-button type="primary" style="width:100%" @click="userClick">管理员入口</el-button>
       </el-form-item>
 
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
-      </div>
     </el-form>
   </div>
 </template>
@@ -66,9 +64,11 @@ export default {
       }
     }
     return {
-      loginForm: {
-        username: 'admin',
-        password: 'admin'
+      loginForm: {    //登录输入框默认内容
+        /* username: 'admin',
+        password: 'admin' */
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -193,16 +193,6 @@ $light_gray:#eee;
     max-width: 100%;
     padding: 35px 35px 15px 35px;
     margin: 120px auto;
-  }
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
   }
   .svg-container {
     padding: 6px 5px 6px 15px;
