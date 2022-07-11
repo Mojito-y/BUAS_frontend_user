@@ -23,6 +23,18 @@
           <svg-icon icon-class="eye" />
         </span>
       </el-form-item>
+       <el-form-item prop="captchaCode">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input v-model="loginForm.captchaCode" name="captchaCode" type="text" auto-complete="on" placeholder="验证码" />
+      </el-form-item>
+      <div class="block" :key="fit">
+        <el-image
+        style="width: 100px; height: 100px"
+        :src="url"
+        :fit="fit"></el-image>
+      </div>
       <el-form-item style="border:0">
         <router-link class="inlineBlock" to="/">
           <el-button type="primary" style="width:48%" @click.native.prevent="registerClick">注册</el-button>
@@ -34,7 +46,6 @@
         <!-- <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLoginUser">
           用户登录
         </el-button> -->
-
       <el-form-item>
         <el-button type="primary" style="width:100%" @click="userClick">管理员入口</el-button>
       </el-form-item>
@@ -51,7 +62,8 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+        // callback(new Error('请输入正确的用户名'))
+        callback()
       } else {
         callback()
       }
@@ -63,16 +75,29 @@ export default {
         callback()
       }
     }
+    const validatecaptchaCode = (rule, value, callback) => {
+      if (!isvalidUsername(value)) {
+        callback()
+      } else {
+        callback()
+      }
+    }
     return {
+      //验证码图片
+      fit: 'fill',
+      url: 'http://172.20.10.4:8081/captcha-image',
+
       loginForm: {    //登录输入框默认内容
         /* username: 'admin',
         password: 'admin' */
         username: '',
-        password: ''
+        password: '',
+        captchaCode:''    //验证码
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }],
+        captchaCode: [{ required: true, trigger: 'blur', validator: validatecaptchaCode }]
       },
       loading: false,
       pwdType: 'password',
@@ -95,17 +120,21 @@ export default {
         this.pwdType = 'password'
       }
     },
+    //登陆回调函数
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          alert("登陆成功！欢迎您，" + this.loginForm.username + "!")
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            this.$router.push({ path: this.redirect || '/' })
+            // this.$router.push("/")
+            window.location.href = 'http://localhost:9527/#/dashboard'    //登录成功之后跳转到主页
           }).catch(() => {
             this.loading = false
           })
         } else {
+          alert("登陆失败")
           console.log('error submit!!')
           return false
         }
@@ -128,7 +157,7 @@ export default {
       })
     },
      userClick () {
-      window.location.href = 'http://localhost:9528'
+      window.location.href = 'http://localhost:9527'
     },
     registerClick(){
       this.$router.push('../login/register.vue')
@@ -144,7 +173,7 @@ $light_gray:#eee;
 /* reset element-ui css */
 .login-container {
   background-image: url("../../assets/login1.png");
-   background-size: cover;
+  background-size: cover;
   background-position: center;
   .el-input {
     display: inline-block;
@@ -217,6 +246,12 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  .img{
+    width: 100;
+    height: 50;
+    // background-image: url("http://172.20.10.4:8081/captcha-image");
+    background-color: #889aa4;
   }
 }
 </style>

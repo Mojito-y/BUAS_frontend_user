@@ -37,7 +37,7 @@ Project
 ├── src                       项目源码目录
 │ ├── api
 │ │  └── api.js               接口文件
-│ ├── assets                  资源目录，这里的资源会被webpack构建
+│ ├── assets                  资源目录，这里的资源会被webpack构建   assets文件夹为组件共用的静态资源
 │ │  ├── css                  第三方css文件，全局css文件
 │ │  ├── fonts                字体
 │ │  ├── less                 全局less
