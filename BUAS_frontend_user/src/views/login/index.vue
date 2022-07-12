@@ -128,8 +128,8 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            // this.$router.push("/")
-            window.location.href = 'http://localhost:9527/#/dashboard'    //登录成功之后跳转到主页
+            this.$router.push("/dashboard")
+            // window.location.href = 'http://localhost:9527/#/dashboard'    //登录成功之后跳转到主页
           }).catch(() => {
             this.loading = false
           })

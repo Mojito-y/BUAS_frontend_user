@@ -1,229 +1,292 @@
 <template>
-<div class="app-container">
-  <!-- 表单查询输入框 -->
+  <div class="app-container">
+     <!-- 表单查询输入框 -->
+    <el-form :inline="true">   <!-- inline表示一行显示  -->
+      <el-form-item><!-- 可添加label标签 -->
+        <!-- <el-input v-model="searchObj.xxx" placeholder="查询条件值" v-model用来调用页面对象的相关值/ 实现双向绑定> -->
+        <el-input v-model="searchObj.userId" placeholder="银行卡号" />
+      </el-form-item>
+      <el-form-item>
+        <el-input v-model="searchObj.name" placeholder="姓名" />
+      </el-form-item>
+      <el-form-item>
+          <el-select clearable v-model="searchObj.area" placeholder="办卡地区">
+            <el-option
+              v-for="item in option"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+      </el-form-item>
+      <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button><!-- @click绑定调用方法 -->
+      <el-button type="primary" icon="el-icon-plus" @click="addUser()">添加用户</el-button><!-- @click绑定调用方法 -->
+    </el-form>
+    <!--用户管理表格 -->
+    <el-table :data="list" :header-cell-style="{background:'#EEF1F6',color:'#486180'}" border stripe style="width: 100%">      <!-- list放入data中进行遍历 -->
+      <el-table-column fixed prop="id" label="序号" width="80">    <!-- prop中的参数名要和后端传入的数据名一致 -->
+      </el-table-column>
+      <el-table-column fixed prop="userId" label="银行卡号" width="100">
+      </el-table-column>
+      <el-table-column prop="name" label="姓名" width="100">
+      </el-table-column>
+      <el-table-column prop="sex" label="性别" width="100">
+      </el-table-column>
+      <el-table-column prop="age" label="年龄" width="100">
+      </el-table-column>
+      <el-table-column prop="creditCards" label="持卡数量" width="100">
+      </el-table-column>
+      <el-table-column prop="area" label="办卡地区(中国范围)" width="200">
+      </el-table-column>
+      <el-table-column prop="consumptionArea" label="消费省份" width="100">
+      </el-table-column>
+      <el-table-column prop="consumptionAmount" label="消费金额" width="120">
+      </el-table-column>
+      <el-table-column prop="payMethod" label="支付方式" width="200">
+      </el-table-column>
+      <el-table-column prop="payTime" label="支付时间" width="150">
+      </el-table-column>
+      <el-table-column prop="commodityCategory" label="商品类别" width="200">
+      </el-table-column>
+      <el-table-column fixed="right" label="操作" width="150">
+        <template slot-scope="scope">     <!-- slot-scope为作用域插槽 -->
+          <router-link :to="'/backstageManage/editUser/'+scope.row.id">     <!-- 路由跳转 -->
+            <el-button size="small" type="info">编辑</el-button>
+          </router-link>
+          <el-button size="small" type="danger" @click="removeUser(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-  <el-form :inline="true" class="demo-form-inline">   <!-- inline表示一行显示  -->
-    <!-- <el-form-item>可添加label标签 -->
-      <!-- <el-input v-model="searchObj.hosnam" placeholder="姓名" v-model用来调用页面对象的相关值/> -->
-      <!-- <el-input placeholder="消费金额" /> -->
-    <!-- </el-form-item> -->
-    <el-form-item>
-      <el-select v-model="valueprovince" clearable filterable placeholder="消费省份">
-          <el-option
-            v-for="item in provincesoptions"
-            :key="item.valueprovince"
-            :label="item.label"
-            :value="item.valueprovince">
-          </el-option>
-        </el-select>
-    </el-form-item>
-    <el-form-item>
-        <el-select v-model="valuemethod" clearable filterable placeholder="支付方式">
-          <el-option
-            v-for="item in methodsoptions"
-            :key="item.valuemethod"
-            :label="item.label"
-            :value="item.valuemethod">
-          </el-option>
-        </el-select>
-    </el-form-item>
-    <el-form-item>
-        <div class="block">
-          <el-date-picker
-            :picker-options="pickerOptions"
-            v-model="valuetime"
-            data="timeData"
-            type="year"
-            placeholder="支付时间">
-          </el-date-picker>
-        </div>
-    </el-form-item>
-    <el-form-item>
-        <el-select v-model="valuecategory" clearable filterable placeholder="商品类别">
-          <el-option
-            v-for="item in categoriesoptions"
-            :key="item.valuecategory"
-            :label="item.label"
-            :value="item.valuecategory">
-          </el-option>
-        </el-select>
-    </el-form-item>
-    <el-button type="primary" icon="el-icon-search" @click="getList()" class="button">查询</el-button><!-- @click绑定调用方法 -->
-    <el-button type="primary" icon="el-icon-plus" @click="getList()" class="button">添加</el-button><!-- @click绑定调用方法 -->
-  </el-form>
-
-
-  <!--用户管理表格 -->
-  <div class="tableDiv">
-  <el-table :data="tableData" stripe style="width: 100%">
-    <el-table-column fixed prop="id" label="用户id" width="170">
-    </el-table-column>
-    <el-table-column prop="consumption_area" label="消费省份" width="150">
-    </el-table-column>
-    <el-table-column prop="consumption_amount" label="消费金额" width="170">
-    </el-table-column>
-    <el-table-column prop="pay_method" label="支付方式" width="170">
-    </el-table-column>
-    <el-table-column prop="pay_time" label="支付时间" width="170">
-    </el-table-column>
-    <el-table-column prop="commodity_category" label="商品类别" width="180">
-    </el-table-column>
-    <el-table-column fixed="right" label="操作" width="170">
-      <template slot-scope="scope">
-        <el-button-group>
-          <el-button @click="handleClick(scope.row)" type="primary" icon="el-icon-edit" size="small" class="button"></el-button>
-          <el-button type="primary" icon="el-icon-delete" size="small" class="button"></el-button>
-        </el-button-group>
-      </template>
-    </el-table-column>
-  </el-table>
-  </div>
   <!--分页 page-size:每页记录数 total：总记录数 @current-change为页数跳转事件触发器（""内填写请求方法名）-->
   <el-pagination
-  :current-page="1"
-  :page-size="limit"
-  :total="100"
+  :current-page="page"
+  :page-size="pageSize"
+  :total="total"
   style="padding: 30px 0; text-align: center;"
   layout="total, prev, pager, next, jumper"
-  @current-change="fetchData" />
-
-</div>
+  @current-change="getList" /><!-- layout为分页属性：总数、上一页、页码、下一页、跳转 -->
+  </div>
 </template>
-
 <script>
-/* 先写死数据 请求参考基本属性分析的性别聚合分析vue文件编写 */
-  export default {
-    methods: {
-      handleClick(row) {
-        console.log(row);
-      }
-    },
-    data() {
-      return {
-        pickerOptions: {
-          disabledDate(time){
-            return time.getTime() > Date.now()||time.getTime() < Date.now() - 24 * 3600 * 1000 * 6 * 365;//设置可选时间为2016-2022年
-          }
-        },
-        methodsoptions: [{valuemethod: '选项1',label: '银行卡支付'},
-                         {valuemethod: '选项2',label: '网上银行'},
-                         {valuemethod: '选项3',label: '电子支票'},
-                         {valuemethod: '选项4',label: '第三方平台(支付宝、微信)'}],
-        valuemethod: '',
-        categoriesoptions: [{valuecategory: '选项1',label: '文体用品'},
-                            {valuecategory: '选项2',label: '日用百货'},
-                            {valuecategory: '选项3',label: '家用电器'},
-                            {valuecategory: '选项4',label: '服装鞋帽'},
-                            {valuecategory: '选项5',label: '手提包、箱包'},
-                            {valuecategory: '选项6',label: '食品、保健品'},
-                            {valuecategory: '选项7',label: '书籍音像制品'},
-                            {valuecategory: '选项8',label: '化妆品和美容产品'},
-                            {valuecategory: '选项9',label: '数码产品及其配件'}],
-        valuecategory: '',
-        provincesoptions: [{valueprovince: '选项1',label: '北京'},
-                           {valueprovince: '选项2',label: '天津'},
-                           {valueprovince: '选项3',label: '河北'},
-                           {valueprovince: '选项4',label: '山西'},
-                           {valueprovince: '选项5',label: '内蒙古'},
-                           {valueprovince: '选项6',label: '辽宁'},
-                           {valueprovince: '选项7',label: '吉林'},
-                           {valueprovince: '选项8',label: '黑龙江'},
-                           {valueprovince: '选项9',label: '上海'},
-                           {valueprovince: '选项10',label: '江苏'},
-                           {valueprovince: '选项11',label: '浙江'},
-                           {valueprovince: '选项12',label: '安徽'},
-                           {valueprovince: '选项13',label: '福建'},
-                           {valueprovince: '选项14',label: '江西'},
-                           {valueprovince: '选项15',label: '山东'},
-                           {valueprovince: '选项16',label: '河南'},
-                           {valueprovince: '选项17',label: '湖北'},
-                           {valueprovince: '选项18',label: '湖南'},
-                           {valueprovince: '选项19',label: '广东'},
-                           {valueprovince: '选项20',label: '广西'},
-                           {valueprovince: '选项21',label: '海南'},
-                           {valueprovince: '选项22',label: '重庆'},
-                           {valueprovince: '选项23',label: '四川'},
-                           {valueprovince: '选项24',label: '贵州'},
-                           {valueprovince: '选项25',label: '云南'},
-                           {valueprovince: '选项26',label: '西藏'},
-                           {valueprovince: '选项27',label: '陕西'},
-                           {valueprovince: '选项28',label: '甘肃'},
-                           {valueprovince: '选项29',label: '青海'},
-                           {valueprovince: '选项30',label: '宁夏'},
-                           {valueprovince: '选项31',label: '新疆'},
-                           {valueprovince: '选项32',label: '台湾'},
-                           {valueprovince: '选项33',label: '香港'},
-                           {valueprovince: '选项34',label: '澳门'}, ],
-        valueprovince: '',
-        valuetime:'',
-        tableData: [{
-          id: '165465',
-          consumption_area:'北京',
-          consumption_amount:'235.2',
-          pay_method:'现金',
-          pay_time:'2019',
-          commodity_category:'文体用品'
-        }, {
-          id: '465131',
-          consumption_area:'上海',
-          consumption_amount:'2555',
-          pay_method:'微信',
-          pay_time:'2020',
-          commodity_category:'文体用品'
-        }, {
-          id: '264641',
-          consumption_area:'上海',
-          consumption_amount:'666',
-          pay_method:'支付宝',
-          pay_time:'2019',
-          commodity_category:'文体用品'
-        }, {
-          id: '165484',
-          consumption_area:'重庆',
-          consumption_amount:'455',
-          pay_method:'支付宝',
-          pay_time:'2019',
-          commodity_category:'文体用品'
-        }, {
-          id: '165791',
-          consumption_area:'重庆',
-          consumption_amount:'320',
-          pay_method:'支付宝',
-          pay_time:'2017',
-          commodity_category:'文体用品'
-        }, {
-          id: '165760',
-          consumption_area:'重庆',
-          consumption_amount:'777',
-          pay_method:'支付宝',
-          pay_time:'2020',
-          commodity_category:'文体用品'
-        }, {
-          id: '249637',
-          consumption_area:'广东',
-          consumption_amount:'1000',
-          pay_method:'支付宝',
-          pay_time:'2021',
-          commodity_category:'文体用品'
-        }, {
-          id: '497135',
-          consumption_area:'四川',
-          consumption_amount:'50000',
-          pay_method:'支付宝',
-          pay_time:'2022',
-          commodity_category:'文体用品'
-        }, ]
-      }
+//引入接口定义的js文件
+import backstageManage from '@/api/backstageManage'
+
+export default {
+  //定义变量和初始值
+  data(){
+    return{
+      page:1,   //当前页
+      pageSize:1,//每页显示记录数
+      searchObj:{},   //条件封装对象
+      list:[],     //每页数据集合
+      total:0,     //总记录数
+
+      //办卡地区选框option
+      option: [
+            {
+              value: "北京",
+              label: "北京",
+            },
+            {
+              value: "天津",
+              label: "天津",
+            },
+            {
+              value: "上海",
+              label: "上海",
+            },
+            {
+              value: "重庆",
+              label: "重庆",
+            },
+            {
+              value: "河北",
+              label: "河北",
+            },
+            {
+              value: "河南",
+              label: "河南",
+            },
+            {
+              value: "云南",
+              label: "云南",
+            },
+            {
+              value: "辽宁",
+              label: "辽宁",
+            },
+            {
+              value: "黑龙江",
+              label: "黑龙江",
+            },
+            {
+              value: "湖南",
+              label: "湖南",
+            },
+            {
+              value: "安徽",
+              label: "安徽",
+            },
+            {
+              value: "山东",
+              label: "山东",
+            },
+            {
+              value: "新疆",
+              label: "新疆",
+            },
+            {
+              value: "江苏",
+              label: "江苏",
+            },
+            {
+              value: "浙江",
+              label: "浙江",
+            },
+            {
+              value: "江西",
+              label: "江西",
+            },
+            {
+              value: "湖北",
+              label: "湖北",
+            },
+            {
+              value: "广西",
+              label: "广西",
+            },
+            {
+              value: "甘肃",
+              label: "甘肃",
+            },
+            {
+              value: "山西",
+              label: "山西",
+            },
+            {
+              value: "内蒙古",
+              label: "内蒙古",
+            },
+            {
+              value: "陕西",
+              label: "陕西",
+            },
+            {
+              value: "吉林",
+              label: "吉林",
+            },
+            {
+              value: "福建",
+              label: "福建",
+            },
+            {
+              value: "广东",
+              label: "广东",
+            },
+            {
+              value: "青海",
+              label: "青海",
+            },
+            {
+              value: "西藏",
+              label: "西藏",
+            },
+            {
+              value: "四川",
+              label: "四川",
+            },
+            {
+              value: "宁夏",
+              label: "宁夏",
+            },
+            {
+              value: "海南",
+              label: "海南",
+            },
+            {
+              value: "台湾",
+              label: "台湾",
+            },
+            {
+              value: "香港",
+              label: "香港",
+            },
+            {
+              value: "澳门",
+              label: "澳门",
+            },
+            {
+              value: "贵州",
+              label: "贵州",
+            }
+          ]
     }
-  }
+  },
+  created () {    //在页面渲染之前执行
+      //一般调用methods定义的方法，得到数据
+      this.getList()  //查询
+
+  },
+  mounted () {
+
+  },
+  methods: {    //定义方法，进行请求接口的调用
+    //查询用户列表函数
+    getList(page=1){    //框架中已经封装好了，页码不需要手动设置
+      this.page = page
+      backstageManage.getUserList(this.page,this.pageSize,this.searchObj)
+      .then(response => {   //接口返回的数据
+        //返回集合复制list
+        this.list = response.data.records
+        //总记录数
+        this.total = response.data.total
+        console.log(response)
+      })//请求成功调用
+      .catch(error => { //请求失败调用
+        console.log(error)
+      })
+    },
+    //添加用户消费记录
+    addUser(){
+      //路由跳转方式跳转添加表单
+      // this.$router.push({ path: '@/views/backstageManage/addUser'})
+      window.location.href = 'http://localhost:9528/#/backstageManage/addUser'
+    },
+
+    //删除用户消费记录
+    removeUser(id){
+      this.$confirm('此操作将永久删除该用户信息, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          //调用接口
+          backstageManage.deleteUser(id)
+            .then(response => {
+              //提示信息
+              this.$message({
+              type: 'success',
+              message: '删除成功!'
+
+            })
+            //刷新页面
+            this.getList(1)
+
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+     },
+  },
+}
 </script>
-<style>
-.tableDiv{
-  width: 90%;
-  margin: auto;
-}
-.button{
-  background-color:#304156;
-  border:0
-}
+<style scoped>
+
 </style>
+
+
+
