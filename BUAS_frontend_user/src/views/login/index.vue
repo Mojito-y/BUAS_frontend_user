@@ -31,7 +31,7 @@
       </el-form-item>
       <div class="block" :key="fit">
         <el-image
-        style="width: 100px; height: 100px"
+        style="width: 47.5%; height: 50px"
         :src="url"
         :fit="fit"></el-image>
       </div>
