@@ -29,7 +29,7 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/login',
     name: 'Dashboard',
     hidden: true,
     children: [{
@@ -60,7 +60,7 @@ export const constantRouterMap = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+        path: 'https://blog.csdn.net/Narutoy?type=blog',
         meta: { title: '敬请期待', icon: 'link' }
       }
     ]

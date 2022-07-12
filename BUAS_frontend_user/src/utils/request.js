@@ -14,7 +14,9 @@ service.interceptors.request.use(
   config => {
     //请求头加一个字段Authorization 配合后端
     if (store.getters.token) {
-      config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 根据实际情况自行修改
+      // config.headers['Authorization'] = getToken() // 让每个请求携带自定义token 根据实际情况自行修改
+      config.headers['Authorization'] = window.localStorage.getItem("token")
+
     }
     return config
   },

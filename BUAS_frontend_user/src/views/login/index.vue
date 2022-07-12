@@ -157,7 +157,7 @@ export default {
       })
     },
      userClick () {
-      window.location.href = 'http://localhost:9527'
+      window.location.href = 'http://localhost:9528'
     },
     registerClick(){
       // this.$router.push('../login/register.vue')

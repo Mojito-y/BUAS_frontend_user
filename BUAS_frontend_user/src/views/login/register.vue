@@ -216,7 +216,7 @@ export default {
         })
       },
       cancelAdd(){
-        this.$router.push({ path: '../login/index'})
+        this.$router.push({ path: '../login'})
       }
     },
 }
