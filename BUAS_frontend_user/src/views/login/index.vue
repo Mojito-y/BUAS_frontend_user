@@ -31,7 +31,7 @@
       </el-form-item>
       <div class="block" :key="fit">
         <el-image
-        style="width: 100px; height: 100px"
+        style="width: 47.5%; height: 50px"
         :src="url"
         :fit="fit"></el-image>
       </div>
@@ -128,8 +128,8 @@ export default {
           this.loading = true
           this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
-            // this.$router.push("/")
-            window.location.href = 'http://localhost:9527/#/dashboard'    //登录成功之后跳转到主页
+            this.$router.push("/dashboard")
+            // window.location.href = 'http://localhost:9527/#/dashboard'    //登录成功之后跳转到主页
           }).catch(() => {
             this.loading = false
           })
@@ -157,7 +157,7 @@ export default {
       })
     },
      userClick () {
-      window.location.href = 'http://localhost:9527'
+      window.location.href = 'http://localhost:9528'
     },
     registerClick(){
       // this.$router.push('../login/register.vue')

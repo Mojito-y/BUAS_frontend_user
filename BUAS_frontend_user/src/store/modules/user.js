@@ -37,6 +37,7 @@ const user = {
           const data = response.data
           setToken(data.jwt)    //调用/utils/auth.js的setToken函数 全局设置token 作为用户唯一的标识
           commit('SET_TOKEN', data.jwt)
+          window.localStorage.setItem("token",data.jwt)
           resolve()
         }).catch(error => {
           reject(error)
