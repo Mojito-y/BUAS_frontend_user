@@ -11,7 +11,6 @@ export default{
       //示例：post方法：`接口url/${para1}/${para2}`   get方法：`接口url/?para1=${para1}&para2=${para2}`
       url: `userinfo/${page}/${pageSize}`,
       method: 'post',
-      // withCredentials:true,      //提交方式
       data:searchObj        //使用json传递
     })
   },

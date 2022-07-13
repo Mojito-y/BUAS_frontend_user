@@ -20,7 +20,7 @@ import '@/icons' // icon
 import '@/permission' // permission control
 
 import axios from 'axios'   //axios是对ajax的封装
-//axios.defaults.withCredentials = true
+// axios.defaults.withCredentials = true
 // create an axios instance
 const service = axios.create({
   baseURL: "http://172.20.10.4:8081",
@@ -29,7 +29,7 @@ const service = axios.create({
     'Content-Type': "application/json;charset=utf-8",
     'Access-Control-Allow-Credentials':"true",//1
   },
-  withCredentials:true//2
+  // withCredentials:true//2
 
 })
 

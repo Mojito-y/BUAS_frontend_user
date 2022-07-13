@@ -28,13 +28,14 @@
           <svg-icon icon-class="password" />
         </span>
         <el-input v-model="loginForm.captchaCode" name="captchaCode" type="text" auto-complete="on" placeholder="验证码" />
-      </el-form-item>
-      <div class="block" :key="fit">
+        <div class="block" :key="fit">
         <el-image
-        style="width: 47.5%; height: 50px"
+        style="width: 47.5%; height: 50px;float:right;margin-top:-50px"
         :src="url"
         :fit="fit"></el-image>
       </div>
+      </el-form-item>
+
       <el-form-item style="border:0">
         <router-link class="inlineBlock" to="/">
           <el-button type="primary" style="width:48%" @click.native.prevent="registerClick">注册</el-button>
