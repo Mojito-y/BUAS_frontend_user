@@ -174,7 +174,7 @@ $light_gray:#eee;
 
 /* reset element-ui css */
 .login-container {
-  background-image: url("../../assets/login1.png");
+  background-image: url("../../assets/bg.gif");
   background-size: cover;
   background-position: center;
   .el-input {
@@ -235,7 +235,7 @@ $light_gray:#eee;
   .title {
     font-size: 26px;
     font-weight: 400;
-    color: $light_gray;
+    color: #678799;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;
@@ -254,6 +254,9 @@ $light_gray:#eee;
     height: 50;
     // background-image: url("http://172.20.10.4:8081/captcha-image");
     background-color: #889aa4;
+  }
+  /deep/.el-input__inner::placeholder{
+    color:#0a5b8a;
   }
 }
 </style>

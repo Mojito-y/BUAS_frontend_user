@@ -52,6 +52,20 @@ export const constantRouterMap = [
         component: () => import('@/views/backstageManage/backstageManage'), //设置要跳转的页面路径
         meta: { title: '后台管理', icon: 'back' }
       },
+      {
+        path: 'addUser',
+        name: '添加用户消费记录',
+        component: () => import('@/views/backstageManage/addUser'), //设置要跳转的页面路径
+        meta: { title: '添加用户消费记录', icon: 'back' },
+        hidden:true
+      },
+      {
+        path: 'editUser/:id',   //修改时数据回显传参
+        name: '修改用户消费记录',
+        component: () => import('@/views/backstageManage/addUser'), //设置要跳转的页面路径
+        meta: { title: '修改用户消费记录', icon: 'back' },
+        hidden:true
+      }
     ],
   },
 

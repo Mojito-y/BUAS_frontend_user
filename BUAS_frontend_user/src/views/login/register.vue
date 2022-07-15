@@ -15,7 +15,7 @@
         <el-input v-model="bankUser.name" name="username" type="text" auto-complete="on" placeholder="姓名" />
       </el-form-item>
       <el-form-item prop="sex" style="border:0">
-        <el-radio-group v-model="bankUser.sex" fill="#4EBD8D">
+        <el-radio-group v-model="bankUser.sex" fill="#415E74">
           <el-radio-button label="男"></el-radio-button>
           <el-radio-button label="女"></el-radio-button>
         </el-radio-group>
@@ -228,7 +228,7 @@ $light_gray:#eee;
 
 /* reset element-ui css */
 .login-container {
-  background-image: url("../../assets/login1.png");
+  background-image: url("../../assets/bg.gif");
   background-size: cover;
   background-position: center;
   .el-input {
@@ -290,7 +290,7 @@ $light_gray:#eee;
   .title {
     font-size: 26px;
     font-weight: 400;
-    color: $light_gray;
+    color: #678799;
     margin: 0px auto 40px auto;
     text-align: center;
     font-weight: bold;
@@ -303,6 +303,9 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  /deep/.el-input__inner::placeholder{
+    color:#0a5b8a;
   }
 }
 </style>

@@ -73,5 +73,5 @@ Project
 │
 ├── package.json              项目基本信息
 │
-└── README.md                 项目介绍哈哈x
+└── README.md                 项目介绍
 石阳

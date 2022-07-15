@@ -20,7 +20,7 @@
           </el-select>
       </el-form-item>
       <el-button type="primary" icon="el-icon-search" @click="getList()">查询</el-button><!-- @click绑定调用方法 -->
-      <el-button type="primary" icon="el-icon-plus" @click="addUser()">添加用户</el-button><!-- @click绑定调用方法 -->
+      <el-button type="primary" icon="el-icon-plus" @click="addUser()">添加记录</el-button><!-- @click绑定调用方法 -->
     </el-form>
     <!--用户管理表格 -->
     <el-table :data="list" :header-cell-style="{background:'#EEF1F6',color:'#486180'}" border stripe style="width: 100%">      <!-- list放入data中进行遍历 -->
@@ -30,13 +30,7 @@
       </el-table-column>
       <el-table-column prop="name" label="姓名" width="100">
       </el-table-column>
-      <el-table-column prop="sex" label="性别" width="100">
-      </el-table-column>
-      <el-table-column prop="age" label="年龄" width="100">
-      </el-table-column>
-      <el-table-column prop="creditCards" label="持卡数量" width="100">
-      </el-table-column>
-      <el-table-column prop="area" label="办卡地区(中国范围)" width="200">
+      <el-table-column prop="area" label="办卡地区" width="200">
       </el-table-column>
       <el-table-column prop="consumptionArea" label="消费省份" width="100">
       </el-table-column>
@@ -77,11 +71,11 @@ export default {
   data(){
     return{
       page:1,   //当前页
-      pageSize:1,//每页显示记录数
+      pageSize:5,//每页显示记录数
+      token:window.localStorage.token,
       searchObj:{},   //条件封装对象
       list:[],     //每页数据集合
       total:0,     //总记录数
-
       //办卡地区选框option
       option: [
             {
@@ -235,9 +229,10 @@ export default {
     //查询用户列表函数
     getList(page=1){    //框架中已经封装好了，页码不需要手动设置
       this.page = page
-      backstageManage.getUserList(this.page,this.pageSize,this.searchObj)
+      backstageManage.getUserList(this.page,this.pageSize,this.token,this.searchObj)
       .then(response => {   //接口返回的数据
         //返回集合复制list
+        console.log(response)
         this.list = response.data.records
         //总记录数
         this.total = response.data.total
@@ -251,7 +246,7 @@ export default {
     addUser(){
       //路由跳转方式跳转添加表单
       // this.$router.push({ path: '@/views/backstageManage/addUser'})
-      window.location.href = 'http://localhost:9528/#/backstageManage/addUser'
+      window.location.href = 'http://localhost:9527/#/backstageManage/addUser'
     },
 
     //删除用户消费记录

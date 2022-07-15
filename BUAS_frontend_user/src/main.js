@@ -29,7 +29,7 @@ const service = axios.create({
     'Content-Type': "application/json;charset=utf-8",
     'Access-Control-Allow-Credentials':"true",//1
   },
-  // withCredentials:true//2
+  withCredentials:true//2
 
 })
 
